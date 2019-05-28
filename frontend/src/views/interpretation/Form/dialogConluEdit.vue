@@ -60,8 +60,10 @@ export default {
     },
     conclustionEditForm(val) {
       val.forEach((item, index) => {
-        if (!item.image_path.match(this.COMMON.webUrl)) {
-          val[index].image_path = val[index].image_path = this.COMMON.webUrl + '/' + item.image_path
+        if (item.image_path) {
+          if (!item.image_path.match(this.COMMON.webUrl)) {
+            val[index].image_path = val[index].image_path = this.COMMON.webUrl + '/' + item.image_path
+          }
         }
       })
       this.conclustionTableList = val
@@ -175,7 +177,7 @@ export default {
 </script>
 <style>
 .customWidth {
-  width: 80%;
+  width: 60%;
 }
 
 </style>

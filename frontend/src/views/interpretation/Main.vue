@@ -28,13 +28,13 @@
           <span>{{ scope.row.secondary_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.conclustion_detail')" align="center" width="200px" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.conclustion_detail')" align="center" width="150px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleUpdateConclustion(scope.row)">查看/编辑
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.site_detail')" align="center" width="200px" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.site_detail')" align="center" width="150px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleUpdateSites(scope.row)">查看/编辑</el-button>
         </template>
@@ -288,6 +288,7 @@ export default {
       this.diaTitle = this.dialogFormInfo.indicate_name + '-结论详情'
       this.dialogConclusionVisible = true
       this.conclustionEditForm = JSON.parse(this.dialogFormInfo.conclusion_result)
+      console.log(this.conclustionEditForm)
     },
     handleUpdateSites(row) {
       this.dialogFormInfo = Object.assign({}, row) // copy obj

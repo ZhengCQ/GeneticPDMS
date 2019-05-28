@@ -201,7 +201,7 @@ export default {
       {
         label: '建议对策',
         key: 'suggest',
-        width: '450px',
+        width: '600px',
         type: 'expand'
       }],
       // 位点表单数据初始化

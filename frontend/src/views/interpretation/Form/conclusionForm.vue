@@ -9,6 +9,7 @@
       <el-form-item label="风险图片" label-width="70px">
         <el-upload class="uploader" action :show-file-list="false" :on-success="handleLogoUploadSuccess" :http-request="customUpload">
           <img
+             style="width:200px"
              v-if="FormInfo.image_path"
              :src="FormInfo.image_path"
              class="upload">
@@ -34,7 +35,7 @@
       <el-input placeholder="结论的详细解读及建议概述" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="FormInfo.interpretation_details" clearable> </el-input>
     </el-form-item>
     <el-form-item :label="$t('table.suggestion')" prop="suggestion">
-      <el-input placeholder="详细的建议对策" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="FormInfo.suggest" clearable> </el-input>
+      <el-input placeholder="详细的建议对策" type="textarea" :autosize="{ minRows: 2}" v-model="FormInfo.suggest" clearable> </el-input>
     </el-form-item>
      <slot></slot>
   </el-form>
@@ -128,43 +129,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.el-input,
-.el-select,
-.el-textarea {
-  width: 300px;
-}
-
-.uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  &:hover {
-    border-color: #409eff;
-  }
-
-  .uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 180px;
-    height: 180px;
-    line-height: 180px;
-    text-align: center;
-  }
-
-  .upload {
-    width: 220px;
-    height: 200px;
-    border-radius: 1px;
-    display: block;
-  }
-}
-
-.el-upload:hover {
-  border-color: #409eff;
-}
-</style>

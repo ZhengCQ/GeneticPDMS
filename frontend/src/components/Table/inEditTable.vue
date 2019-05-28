@@ -36,7 +36,7 @@
     </el-table-column>
 
     <el-table-column
-              v-else
+              v-else-if="item.type != 'expand'"
               :key="item.key"
               :label="item.label"
               :width="item.width"
@@ -53,7 +53,7 @@
         </slot>
       </template>
     </el-table-column>
-    <el-table-column label="操作" width="120" align="center">
+    <el-table-column label="操作" width="160" align="center">
       <template slot-scope="scope">
         <el-button v-if="scope.row.edit" type="success" size="small" icon="el-icon-circle-check-outline" @click="confirmEdit(scope.row)">OK</el-button>
         <el-button v-else type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
@@ -106,7 +106,7 @@ export default {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .table-picture {
   width: 80px;
   height: 80px;
@@ -120,7 +120,6 @@ export default {
 
  .el-form-item {
     white-space: pre-wrap;
-    /*white-space: pre-line;*/
     margin-right: 0;
     margin-bottom: 0;
     width: 100%;

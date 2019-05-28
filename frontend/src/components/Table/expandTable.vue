@@ -16,6 +16,7 @@
     <!--el-table-column type="index" label="No." width="70px" align="center" /-->
     <el-table-column
            v-for="item in tableKey"
+           v-if="item.type != 'expand'"
            show-overflow-tooltip
            :key="item.name"
            :label="item.label"

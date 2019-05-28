@@ -5,7 +5,7 @@
              :name="name"
              v-model="currentValue"
              @input="onInputEvent"
-             :autosize="autosize"
+             :autosize="{minRows:2}"
              :placeholder="placeholder">
     </el-input>
   </el-form-item>
@@ -14,7 +14,7 @@
 import formMixins from '@/mixins/form-model'
 export default {
   name: 'MultiTextInput',
-  props: ['placeholder', 'label', 'prop', 'name', 'value', 'autosize'],
+  props: ['placeholder', 'label', 'prop', 'name', 'value'],
   mixins: [formMixins],
   data() {
     return {
