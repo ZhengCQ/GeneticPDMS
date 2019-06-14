@@ -17,7 +17,6 @@
     <el-table-column
            v-for="item in tableKey"
            v-if="item.type != 'expand'"
-           show-overflow-tooltip
            :key="item.name"
            :label="item.label"
            :prop="item.prop"

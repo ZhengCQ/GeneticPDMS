@@ -18,7 +18,7 @@ export function gallPrimary(name) {
 
 export function gallSecondary(primary_name) {
   return request({
-    url: '/disease/all_secondary',
+    url: '/query/all_secondary',
     method: 'get',
     params: { primary_name }
   })

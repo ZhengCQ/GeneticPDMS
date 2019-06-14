@@ -161,15 +161,18 @@ export default {
     handleSuccess({ results, header }) {
       const upload = { upload: results }
       upload.upload.forEach((item, index) => {
-        // upload.upload[index].suggest = item.suggest.replace(/\\n/gm, '<br\>')
-        upload.upload[index].id = 0
+        upload.upload[index].suggest = item.suggest.replace(/\\n/g, '\n')
+        if (item.id) {
+          upload.upload[index].id = item.id
+        } else {
+          upload.upload[index].id = 0
+        }
+        console.log(item.id)
         // 'http://47.100.178.254:443//static/Images/CommonDisease/Detail/较低风险.jpg'
         upload.upload[index].image_path = this.COMMON.webUrl + '/' + upload.upload[index].image_path + '/' + upload.upload[index].conclusion + '.jpg'
       })
       this.conclustionTableList.push.apply(this.conclustionTableList, upload.upload)
-      console.log(this.conclustionTableList)
-      // console.log(this.siteTableList)
-      // console.log(upload)
+      console.log(upload)
     }
   }
 }

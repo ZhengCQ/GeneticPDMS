@@ -19,7 +19,8 @@ export default {
     return {
       config: this.InterpMainApp.subConfig,
       indicateForm: this.InterpMainApp.subFormInfo,
-      rules: this.InterpMainApp.rules
+      rules: this.InterpMainApp.rules,
+      Material_name: ''
     }
   },
   created() {
@@ -60,11 +61,12 @@ export default {
       const list = transQueryList(queryString, itemData)
       callback(list)
     },
-    // rs
-    async querySearchRs(queryString, callback) {
-      const name = this.siteForm.rs_name
-      var itemData = await this.InterpMainApp.gfindRsName(name)
-      itemData = itemData.data.rs_name
+    // Material 基因，rs,表型。name和querySearch要设定好
+    async querySearchMaterial(queryString, callback) {
+      const name = this.indicateForm[this.Material_name]
+      var itemData = await this.InterpMainApp.gfindMaterial('GD', name)
+      console.log(itemData)
+      itemData = itemData.data[this.Material_name]
       const list = transQueryList(queryString, itemData)
       callback(list)
     },
@@ -78,6 +80,9 @@ export default {
           item.querySearch = this.querySearchIndi
         } else if (item.querySearch === 'getKnowledge') {
           item.querySearch = this.querySearchKlg
+        } else if (item.querySearch === 'gfindMaterial') {
+          item.querySearch = this.querySearchMaterial
+          this.Material_name = item.name
         }
       })
     }

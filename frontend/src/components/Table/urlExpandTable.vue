@@ -29,12 +29,12 @@
           <div v-if="item.url === 'ghr'">
             <a :href="'https://ghr.nlm.nih.gov/gene/' + scope.row[item.name]" target="_blank" class="ex2">{{scope.row[item.name]}}</a>
           </div>
-          <div v-else-if="item.url === 'omimgene'">
+          <div v-else-if="item.url === 'omimid'">
             <a :href="'https://www.omim.org/entry/' + scope.row[item.name]" target="_blank" class="ex2">{{scope.row[item.name]}}</a>
           </div>
         </div>
-        <div v-else-if="item.type === 'multishow'" v-for="subshow in scope.row[item.name]" :key="subshow">
-          <span class="link-type" @click="handleFetchItems(subshow)">{{ subshow }}</span>
+        <div v-else-if="item.type === 'multishow'" v-for="(value, key, index) in scope.row[item.name]" :key="index" align="left">
+          <span class="link-type" @click="handleFetchItems(key)">{{ key + ' : ' + value.join(' | ') }}</span>
         </div>
         <div v-else>
             <span>{{ scope.row[item.name] }}</span>
@@ -126,6 +126,7 @@ export default {
   },
   methods: {
     async handleFetchItems(name) {
+      console.log(name)
       const info = await gdetailsPhenotypeMIMnum(name)
       this.dialogPvVisible = true
       this.tableList = info.data.result.phenotype
