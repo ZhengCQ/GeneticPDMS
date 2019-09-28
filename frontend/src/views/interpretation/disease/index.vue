@@ -2,24 +2,32 @@
   <maincontent
                :fetchList="glistdisease"
                :deleteRecord="gdeleteDisease"
+               :createDataForm="paddDisease"
+               :updateDataForm="peditDisease"
+
                :getPrimary="gallPrimary"
                :getSecondary="gallSecondary"
                :getIndicate="gallDisease"
-               :createDataForm="paddDisease"
-               :updateDataForm="peditDisease"
-               :siteEditColumns="siteEditColumns"
-               :subConfig="subElConfig"
+               :getClass="gallDiseaseIndicateClass"
+
                :conclusionFormInfo="conclusionFormInfo"
                :conclusionConfig="conclusionConfig"
                :conclustionColumns="conclustionColumns"
+
                :formData="formData"
+               :subConfig="subElConfig"
+
+               :siteEditColumns="siteEditColumns"
                :siteFormInfo="siteFormInfo"
                :siteConfig="siteConfig"
+
+               :primaryCode='primaryCode'
                :rules="rules"
                />
 </template>
 <script>
-import { glistdisease, gdeleteDisease, gallPrimary, gallSecondary, gallDisease, paddDisease, peditDisease } from '@/api/interpretation/disease'
+import { glistdisease, gdeleteDisease, paddDisease, peditDisease, gallPrimary, gallDisease, gallDiseaseIndicateClass } from '@/api/interpretation/disease'
+import { gallSecondary } from '@/api/query'
 import maincontent from '../Main'
 export default {
   components: {
@@ -28,14 +36,16 @@ export default {
   methods: {
     glistdisease,
     gdeleteDisease,
+    paddDisease,
+    peditDisease,
     gallPrimary,
     gallSecondary,
-    gallDisease,
-    paddDisease,
-    peditDisease
+    gallDiseaseIndicateClass,
+    gallDisease
   },
   data() {
     return {
+      primaryCode: 'CD',
       // 主表单需要收集的form数据
       formData: {
         primary_name: '常见疾病',
@@ -64,18 +74,17 @@ export default {
             querySearch: 'getSecondary'
           },
           {
-            name: 'indicate_name',
-            label: '指标名称',
-            prop: 'indicate_name',
-            fieldType: 'autoComplete',
-            cols: 16,
-            querySearch: 'querySearchIndi',
-            trigerFocus: false
-          },
-          {
             name: 'indicate_class',
             label: '指标类',
             prop: 'indicate_class',
+            fieldType: 'autoComplete',
+            cols: 16,
+            querySearch: 'querySearchClass'
+          },
+          {
+            name: 'indicate_name',
+            label: '指标名称',
+            prop: 'indicate_name',
             fieldType: 'autoComplete',
             cols: 16,
             querySearch: 'querySearchIndi',
@@ -209,7 +218,7 @@ export default {
         rs_name: '',
         gene: '',
         ref: '',
-        alt: '',
+        alt_db: '',
         effect_allele: '',
         jb_or: '',
         beta: '',
@@ -286,7 +295,9 @@ export default {
               { label: 'A', value: 'A' },
               { label: 'T', value: 'T' },
               { label: 'C', value: 'C' },
-              { label: 'G', value: 'G' }
+              { label: 'G', value: 'G' },
+              { label: 'I', value: 'I' },
+              { label: 'D', value: 'D' }
             ],
             cols: 12
           },
@@ -351,7 +362,7 @@ export default {
       },
       {
         label: '突变碱基',
-        key: 'alt'
+        key: 'alt_db'
       },
       {
         label: '风险碱基',

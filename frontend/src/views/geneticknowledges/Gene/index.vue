@@ -6,12 +6,13 @@
                :fetchList="glistGene"
                :deleteRecord="gdeleteGene"
                :gfindMaterial="gfindGene"
+               :gfindPheno="gqueryPhenotypeMIMnum"
                :createDataForm="paddGene"
                :updateDataForm="peditGene"
                />
 </template>
 <script>
-import { glistGene, paddGene, peditGene, gdeleteGene } from '@/api/geneticknowledges/gene'
+import { glistGene, paddGene, peditGene, gdeleteGene, gqueryPhenotypeMIMnum } from '@/api/geneticknowledges/gene'
 import { gfindGene } from '@/api/query'
 import maincontent from '../Main'
 export default {
@@ -23,7 +24,8 @@ export default {
     gdeleteGene,
     paddGene,
     peditGene,
-    gfindGene
+    gfindGene,
+    gqueryPhenotypeMIMnum
   },
   data() {
     return {
@@ -80,7 +82,7 @@ export default {
         gene_english_desc: '',
         gene_name: '',
         indicate_name: '',
-        relate_phenotypeMIMnum: '',
+        relate_phenotypeMIMnum: [],
         typical_symptoms: ''
       },
       subElConfig: {
@@ -101,6 +103,14 @@ export default {
             placeholder: '数字，如125671',
             fieldType: 'NumInput',
             cols: 16
+          },
+          {
+            name: 'relate_phenotypeMIMnum',
+            label: 'relate_phenotypeMIMnum',
+            prop: '表型OMIM号',
+            fieldType: 'multiSelectList',
+            cols: 16,
+            querySearch: 'gfindPheno'
           },
           {
             name: 'chinese_auditor',

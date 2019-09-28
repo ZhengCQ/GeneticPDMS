@@ -16,11 +16,11 @@ export function gallPrimary(name) {
   })
 }
 
-export function gallSecondary(primary_name) {
+export function gallDiseaseIndicateClass(secondary_name) {
   return request({
-    url: '/disease/all_secondary',
+    url: '/disease/all_disease_indicate_class',
     method: 'get',
-    params: { primary_name }
+    params: { secondary_name }
   })
 }
 

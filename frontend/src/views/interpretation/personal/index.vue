@@ -4,6 +4,7 @@
                :deleteRecord="gdeleteIndicate"
                :getPrimary="gallPrimary"
                :getSecondary="gallSecondary"
+               :getClass="gallClass"
                :getIndicate="gallPersonality"
                :createDataForm="paddPersonInterpretation"
                :updateDataForm="peditPersonInterpretation"
@@ -23,6 +24,7 @@
 // /personal/edit_person_interpretation
 // /personal/indicate_2_knowlege
 import { glistAllPsersonal, gdeleteIndicate, gallPrimary, gallSecondary, gallPersonality, paddPersonInterpretation, peditPersonInterpretation } from '@/api/interpretation/personal'
+import { gallClass } from '@/api/query'
 import maincontent from '../Main'
 export default {
   components: {
@@ -31,6 +33,7 @@ export default {
   methods: {
     glistAllPsersonal,
     gdeleteIndicate,
+    gallClass,
     gallPrimary,
     gallSecondary,
     gallPersonality,
@@ -42,6 +45,7 @@ export default {
       // 主表单需要收集的form数据
       formData: {
         primary_name: '个性特质',
+        primary_code: 'PE',
         secondary_name: '',
         indicate_name: '',
         indicate_class: '',
@@ -106,50 +110,30 @@ export default {
         fieldsConfig: [
           {
             name: 'conclusion',
-            label: '分类结论与评估',
-            placeholder: '风险等级和评估指标',
-            fieldType: 'CasCader',
-            options: [
-              {
-                label: '三级', value: '三级分类', children: [
-                  { label: '低风险', value: '低风险', children: [
-                    { label: '<0.8', value: '<0.8' },
-                    { label: '<0.9', value: '<0.9' }]
-                  },
-                  { label: '一般风险', value: '一般风险', children: [
-                    { label: '0.8<=x<1.1', value: '>=0.8&&<1.1' },
-                    { label: '0.9<=x<1.1', value: '>=0.9&&<1.1' }]
-                  },
-                  { label: '高风险', value: '高风险', children: [
-                    { label: '>=1.1', value: '>=1.1' },
-                    { label: '>=1.4', value: '>=1.4' }]
-                  }
-                ]
-              },
-              {
-                label: '五级', value: '五级分类', children: [
-                  { label: '低风险', value: '低风险', children: [
-                    { label: '<0.8', value: '<0.8' },
-                    { label: '<0.9', value: '<0.9' }]
-                  },
-                  { label: '一般风险', value: '一般风险', children: [
-                    { label: '0.8<=x<1.1', value: '>=0.8&&<1.1' },
-                    { label: '0.9<=x<1.1', value: '>=0.9&&<1.1' }]
-                  },
-                  { label: '稍高风险', value: '稍高风险', children: [
-                    { label: '1.1<=x<1.4', value: '>=1.1&&<1.4' }]
-                  },
-                  { label: '高风险', value: '高风险', children: [
-                    { label: '>=1.1', value: '>=1.1' },
-                    { label: '>=1.4', value: '>=1.4' }]
-                  },
-                  { label: '极高风险', value: '极高风险', children: [
-                    { label: '>=2', value: '>=2' }]
-                  }
-                ]
-              }
-            ],
+            label: '结论',
+            placeholder: '结论信息',
+            fieldType: 'TextInput',
             cols: 20
+          },
+          {
+            name: 'interpretation',
+            label: '解读详情',
+            placeholder: '解读详情',
+            fieldType: 'multiTextInput',
+            cols: 16,
+            autosize: { minRows: 4, maxRows: 8 }
+          },
+          {
+            name: 'mark_down',
+            label: '分值(下限)',
+            placeholder: '结论对应分值(数字)',
+            fieldType: 'NumInput'
+          },
+          {
+            name: 'mark_up',
+            label: '分值(上限)',
+            placeholder: '结论对应分值(数字)',
+            fieldType: 'NumInput'
           }
         ]
       },
@@ -159,30 +143,25 @@ export default {
         key: 'conclusion'
       },
       {
-        label: '结论说明',
-        key: 'explanation',
-        width: '200px'
-      },
-      {
-        label: '评估指标',
-        key: 'evaluation_indicator'
-      },
-      {
         label: '解读详情',
-        key: 'interpretation_details',
+        key: 'interpretation',
         width: '250px'
       },
       {
-        label: '建议对策',
-        key: 'suggest',
-        width: '300px'
-      }],
+        label: '分值(下)',
+        key: 'mark_down'
+      },
+      {
+        label: '分值(上)',
+        key: 'mark_up'
+      }
+      ],
       // 位点表单数据初始化
       siteFormInfo: {
         rs_name: '',
         gene: '',
         ref: '',
-        alt: '',
+        alt_db: '',
         genotype: '',
         effect: '',
         mark: '',
@@ -214,7 +193,7 @@ export default {
             cols: 12
           },
           {
-            name: 'alt',
+            name: 'alt_db',
             label: '突变碱基',
             fieldType: 'SelectList',
             options: [
@@ -274,7 +253,7 @@ export default {
       },
       {
         label: '突变碱基',
-        key: 'alt'
+        key: 'alt_db'
       },
       {
         label: '基因型',
@@ -296,10 +275,6 @@ export default {
         label: '文献',
         key: 'reference',
         width: '460px'
-      },
-      {
-        label: '操作',
-        key: 'operation'
       }
       ]
     }

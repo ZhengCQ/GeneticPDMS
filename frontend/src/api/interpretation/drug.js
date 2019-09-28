@@ -24,6 +24,14 @@ export function gallSecondary(primary_name) {
   })
 }
 
+export function gallClass(secondary_name) {
+  return request({
+    url: '/drug/all_disease_indicate_class',
+    method: 'get',
+    params: { secondary_name }
+  })
+}
+
 export function gallDrug(secondary_name) {
   return request({
     url: '/drug/all_drug',
@@ -56,3 +64,10 @@ export function peditDrug(results) {
   })
 }
 
+export function gdeleteDrug(id) {
+  return request({
+    url: '/drug/delete_drug',
+    method: 'get',
+    params: id
+  })
+}

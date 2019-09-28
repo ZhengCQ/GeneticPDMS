@@ -11,6 +11,7 @@ import knowledgesRouter from './modules/knowledges'
 import interpretationRouter from './modules/interpretation'
 import indicateclassRouter from './modules/indicateclass'
 import geneticKnowledgesRouter from './modules/geneticKnowledges'
+import drugKnowledgesRouter from './modules/drugKnowledges'
 
 /** note: Submenu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -112,5 +113,6 @@ export const asyncRouterMap = [
   indicateclassRouter,
   interpretationRouter,
   knowledgesRouter,
-  geneticKnowledgesRouter
+  geneticKnowledgesRouter,
+  drugKnowledgesRouter
 ]

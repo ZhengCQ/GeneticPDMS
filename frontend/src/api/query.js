@@ -14,3 +14,11 @@ export function gfindGene(primary_code, gene_name) {
     params: { primary_code, gene_name }
   })
 }
+
+export function gallClass(primary_code) {
+  return request({
+    url: '/query/indicate_class_info',
+    method: 'get',
+    params: { primary_code }
+  })
+}

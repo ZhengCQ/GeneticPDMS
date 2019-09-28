@@ -8,6 +8,7 @@
                   :prop="field.prop"
                   :value="formData[field.name]"
                   :multiple="field.multiple"
+                  :itemData="itemData"
                   @input="updateForm"
                   v-bind="field"
                   :options="field.options"
@@ -24,12 +25,13 @@ import autoComplete from './basic/autoComplete'
 import TextInput from './basic/TextInput'
 import NumInput from './basic/NumInput'
 import SelectList from './basic/SelectList'
+import multiSelectList from './basic/multiSelectList'
 import multiTextInput from './basic/multiTextInput'
 import CasCader from './basic/cascader.vue'
 export default {
   name: 'FormGenerator',
-  components: { autoComplete, TextInput, SelectList, multiTextInput, NumInput, CasCader },
-  props: ['config', 'value'],
+  components: { autoComplete, TextInput, SelectList, multiSelectList, multiTextInput, NumInput, CasCader },
+  props: ['config', 'value', 'itemData'],
   data() {
     return {
       formData: this.value

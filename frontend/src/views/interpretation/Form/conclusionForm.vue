@@ -5,7 +5,8 @@
         <form-generator :config="config" v-model="FormInfo" :rules="rules" />
       </el-row>
     </el-form>
-    <el-form style="width: 600px;margin-left:50px;" v-if="showForm">
+
+    <el-form  v-if="showForm && primaryCode === 'CD'" style="width: 600px;margin-left:50px;" >
       <el-form-item label="风险图片" label-width="70px">
         <el-upload class="uploader" action :show-file-list="false" :on-success="handleLogoUploadSuccess" :http-request="customUpload">
           <img
@@ -37,8 +38,11 @@
     <el-form-item :label="$t('table.suggestion')" prop="suggestion">
       <el-input placeholder="详细的建议对策" type="textarea" :autosize="{ minRows: 2}" v-model="FormInfo.suggest" clearable> </el-input>
     </el-form-item>
-     <slot></slot>
   </el-form>
+  <el-form v-if="showForm">
+      <slot></slot>
+  </el-form>
+
   </div>
 </template>
 <script type="text/javascript">
@@ -52,6 +56,7 @@ export default {
     return {
       config: this.InterpMainApp.conclusionConfig,
       FormInfo: this.InterpMainApp.conclusionFormInfo,
+      primaryCode: this.InterpMainApp.primaryCode,
       rules: this.InterpMainApp.rules,
       UploadBaseURL: this.COMMON.baseUrl + this.COMMON.api_upload,
       imgsrc: ''

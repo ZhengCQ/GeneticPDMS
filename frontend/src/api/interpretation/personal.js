@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function glistAllPsersonal(query) {
   return request({
-    url: '/personal/list_all_psersonal',
+    url: '/personal/list_all_personality',
     method: 'get',
     params: query
   })
@@ -50,7 +50,7 @@ export function glistKnowlege(primary_name, knowlege_name) {
 
 export function paddPersonInterpretation(results) {
   return request({
-    url: '/personal/add_person_interpretation',
+    url: '/personal/add_personality',
     method: 'post',
     params: { results }
   })
@@ -58,7 +58,7 @@ export function paddPersonInterpretation(results) {
 
 export function peditPersonInterpretation(results) {
   return request({
-    url: '/personal/edit_person_interpretation',
+    url: '/personal/edit_personal',
     method: 'post',
     params: { results }
   })

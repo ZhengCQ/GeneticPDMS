@@ -68,18 +68,22 @@ export default {
     async queryRsDetail(rs_name) {
       var itemData = await gfindSiteDetail(rs_name)
       var altArray = []
-
-      console.log(itemData.data.result)
-      this.FormInfo.gene = itemData.data.result[0].gene
-      this.FormInfo.ref = itemData.data.result[0].ref
-      // alt 有多个，当alt不为空的时候，将alt存为数组，输出到alt的options共选择
-      itemData.data.result.forEach(item => {
-        if (item.alt) {
-          altArray.push(
-            { label: item.alt, value: item.alt },
-          )
-        }
-      })
+      console.log(typeof itemData.data.result)
+      if (typeof itemData.data.result === 'object') {
+        this.FormInfo.gene = itemData.data.result[0].gene
+        this.FormInfo.ref = itemData.data.result[0].ref
+        // alt 有多个，当alt不为空的时候，将alt存为数组，输出到alt的options共选择
+        itemData.data.result.forEach(item => {
+          if (item.alt) {
+            altArray.push(
+              { label: item.alt, value: item.alt },
+            )
+          }
+        })
+      } else {
+        this.FormInfo.gene = ''
+        this.FormInfo.ref = ''
+      }
     },
     querySearchType() { // 函数一时没有找到方法直接转递，采用字符传递方式，再用方法替代。
       this.config.fieldsConfig.forEach((item, index) => {

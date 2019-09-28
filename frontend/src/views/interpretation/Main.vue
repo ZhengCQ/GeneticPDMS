@@ -6,7 +6,7 @@
     <!--新增 结束-->
     <!--数据列表上方 结束-->
     <!--数据列表表单 开始-->
-    <el-table v-loading="listLoading" :data="tableList" border fit highlight-current-row style="width: 100%;" @sort-change="sortChange">
+    <el-table v-loading="listLoading" :data="tableList"  border fit highlight-current-row style="width: 100%;" @sort-change="sortChange">
       <el-table-column type="index" label="No." width="70px" align="center" />
       <el-table-column :label="$t('table.disease_code')" prop="product_class" align="center" width="120px" sortable>
         <template slot-scope="scope">
@@ -28,17 +28,37 @@
           <span>{{ scope.row.secondary_name }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column v-if="primaryCode === 'DM'" label="解读模式" prop="interpretation_model" align="center" width="120px" sortable>
+        <template slot-scope="scope">
+          <span>{{ scope.row.interpretation_model }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column :label="$t('table.conclustion_detail')" align="center" width="150px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleUpdateConclustion(scope.row)">查看/编辑
+          <el-button v-if="scope.row.interpretation_model === null || scope.row.interpretation_model === 2" type="warning" disabled size="small" >无
+          </el-button>
+          <el-button  v-else type="primary" size="small" @click="handleUpdateConclustion(scope.row)">查看/编辑
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.site_detail')" align="center" width="150px" class-name="small-padding fixed-width">
+      <el-table-column v-if="siteEditColumns" :label="$t('table.site_detail')" align="center" width="150px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleUpdateSites(scope.row)">查看/编辑</el-button>
         </template>
       </el-table-column>
+      <el-table-column  v-if="geneinfoflag" label="基因名称" prop="gene_names" align="center" width="200px" sortable>
+        <template v-if="scope.row.gene_names" slot-scope="scope">
+          <span>{{ scope.row.gene_names.join(',') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  v-if="geneinfoflag" label="基因详情" align="center" width="150px" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleDetailGenes(scope.row)">查看/编辑</el-button>
+        </template>
+      </el-table-column>
+
       <el-table-column :label="$t('table.actions')" align="center" width="200px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
@@ -96,6 +116,10 @@ export default {
   name: 'InterpMainTable',
   components: { addEditForm, Pagination, UploadExcelComponent, DialogTable, ConcluEdit, SiteEdit },
   props: {
+    primaryCode: {
+      type: String,
+      default: null
+    },
     fetchList: {
       type: Function,
       default: null
@@ -109,6 +133,14 @@ export default {
       default: null
     },
     getSecondary: {
+      type: Function,
+      default: null
+    },
+    getClass: {
+      type: Function,
+      default: null
+    },
+    getGene: {
       type: Function,
       default: null
     },
@@ -147,6 +179,9 @@ export default {
     },
     conclusionConfig: {
       type: Object
+    },
+    geneinfoflag: {
+      type: Boolean
     },
     rules: {
       type: Object
@@ -191,9 +226,13 @@ export default {
       this.listLoading = true
       this.fetchList(this.listQuery).then(response => {
         this.tableList = response.data.results
+
         for (const i of this.tableList) {
           i.id = (Array(4).join('0') + i.id).slice(-4) // 得到特定长度
           // i.disease_code = i.primary_code + i.disease_code // 更替disase_code
+        }
+        if (this.tableList.gene_names) {
+          this.tableList.gene_names = this.tableList.gene_names.join(',')
         }
         this.total = response.data.total
         // Just to simulate the time of the request
@@ -265,8 +304,10 @@ export default {
       this.dialogStatus = 'create'
       this.$refs.addEditForm.resetTable() // 调用Form中的重置数据 ，重置table可编辑表单
       for (var name in this.subFormInfo) {
-        if (name !== 'primary_name') {
-          this.subFormInfo[name] = ''
+        if (typeof this.subFormInfo[name] === 'object') {
+          this.subFormInfo[name] = []
+        } else if (name !== 'primary_name') {
+          this.subFormInfo[name] = '' // 重置数据
         }
       }
       this.dialogVisible = true
@@ -276,9 +317,16 @@ export default {
       for (var name in this.subFormInfo) {
         this.subFormInfo[name] = this.dialogFormInfo[name]
       }
+      console.log(this.dialogFormInfo)
       this.subFormInfo.id = this.dialogFormInfo.id
-      this.siteEditForm = JSON.parse(this.dialogFormInfo.site_result)
-      this.conclustionEditForm = JSON.parse(this.dialogFormInfo.conclusion_result)
+      this.conclustionEditForm = []
+      this.siteEditForm = []
+      if (this.dialogFormInfo.site_result) {
+        this.siteEditForm = JSON.parse(this.dialogFormInfo.site_result)
+      }
+      if (this.dialogFormInfo.conclusion_result) {
+        this.conclustionEditForm = JSON.parse(this.dialogFormInfo.conclusion_result)
+      }
       this.dialogStatus = 'update'
       this.dialogVisible = true
     },
@@ -287,15 +335,25 @@ export default {
       this.dialogFormInfo = Object.assign({}, row) // copy obj
       this.diaTitle = this.dialogFormInfo.indicate_name + '-结论详情'
       this.dialogConclusionVisible = true
-      this.conclustionEditForm = JSON.parse(this.dialogFormInfo.conclusion_result)
-      console.log(this.conclustionEditForm)
+      this.conclustionEditForm = []
+      if (this.dialogFormInfo.conclusion_result) {
+        this.conclustionEditForm = JSON.parse(this.dialogFormInfo.conclusion_result)
+      }
+      // console.log(this.conclustionEditForm)
     },
     handleUpdateSites(row) {
+      console.log(row)
       this.dialogFormInfo = Object.assign({}, row) // copy obj
       this.diaTitle = this.dialogFormInfo.indicate_name + '-位点详情'
       this.dialogSiteVisible = true
-      this.siteEditForm = JSON.parse(this.dialogFormInfo.site_result)
+      this.siteEditForm = []
+      if (this.dialogFormInfo.site_result) {
+        this.siteEditForm = JSON.parse(this.dialogFormInfo.site_result)
+      }
       console.log(this.siteEditForm)
+    },
+    handleDetailGenes(row) {
+      this.$router.push({ name: 'Gene', query: { genename: row.gene_names.join(',') }})
     }
   }
 }

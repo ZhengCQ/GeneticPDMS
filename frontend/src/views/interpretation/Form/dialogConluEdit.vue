@@ -122,7 +122,7 @@ export default {
     },
     pre_conclustionTable(tableData) {
       tableData.forEach((item, index) => {
-        if (item.image_path.match(this.COMMON.webUrl)) {
+        if (item.image_path && item.image_path.match(this.COMMON.webUrl)) {
           tableData[index].image_path = item.image_path.replace(this.COMMON.webUrl + '/', '')
         }
       })

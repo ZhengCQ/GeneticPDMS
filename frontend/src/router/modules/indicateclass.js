@@ -9,7 +9,7 @@ const indicateclassRouter = {
   children: [
     {
       path: 'drug',
-      component: () => import('@/views/svg-icons/index'),
+      component: () => import('@/views/indicateclass/drug/index'),
       name: 'DrugClass',
       meta: { title: 'drugs', icon: 'yaowu', noCache: false }
     },
@@ -21,13 +21,13 @@ const indicateclassRouter = {
     },
     {
       path: 'personal',
-      component: () => import('@/views/svg-icons/index'),
+      component: () => import('@/views/indicateclass/personal/index'),
       name: 'CharacterClass',
       meta: { title: 'personal', icon: 'tezheng', noCache: false }
     },
     {
       path: 'mendelian',
-      component: () => import('@/views/svg-icons/index'),
+      component: () => import('@/views/indicateclass/mendelian/index'),
       name: 'MendelianClass',
       meta: { title: 'mendelian', icon: 'danjiyinyichuanbing', noCache: false }
     }

@@ -88,6 +88,14 @@ export function gallDrug(secondary_name) {
   })
 }
 
+export function gallGenetic(secondary_name) {
+  return request({
+    url: '/geneticDiseases/all_disease',
+    method: 'get',
+    params: { secondary_name }
+  })
+}
+
 export function glistIndicate(primary_name, secondary_name) {
   return request({
     url: '/product/list_indicate',

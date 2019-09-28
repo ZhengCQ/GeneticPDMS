@@ -171,8 +171,12 @@ export default {
       for (var name in this.subFormInfo) {
         this.subFormInfo[name] = this.dialogFormInfo[name]
       }
-      this.subFormInfo.male_incidence = parseFloat(this.dialogFormInfo.male_incidence)
-      this.subFormInfo.female_incidence = parseFloat(this.dialogFormInfo.female_incidence)
+      if (this.dialogFormInfo.male_incidence) {
+        this.subFormInfo.male_incidence = parseFloat(this.dialogFormInfo.male_incidence)
+      }
+      if (this.subFormInfo.female_incidence) {
+        this.subFormInfo.female_incidence = parseFloat(this.dialogFormInfo.female_incidence)
+      }
       this.subFormInfo.id = this.dialogFormInfo.id
       this.dialogStatus = 'update'
       this.dialogVisible = true

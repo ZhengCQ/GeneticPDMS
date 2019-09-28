@@ -89,6 +89,7 @@ export default {
     },
     updateData() {
       const tempData = Object.assign({}, this.$refs.subelform.indicateForm) // subelform从获取数据，中赋值到data
+      console.log(tempData)
       this.InterpMainApp.updateDataForm(JSON.stringify(tempData)).then(() => {
         this.$emit('getlist')
         this.$emit('cancel') // 调用父组件的cancer方法

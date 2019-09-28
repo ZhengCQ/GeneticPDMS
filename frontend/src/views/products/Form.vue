@@ -55,7 +55,7 @@
   </el-dialog>
 </template>
 <script type="text/javascript">
-import { getSecondary, gallDisease, getProductName, gallPersonality, gallDrug, createDataForm, updateDataForm } from '@/api/product'
+import { getSecondary, gallDisease, getProductName, gallGenetic, gallPersonality, gallDrug, createDataForm, updateDataForm } from '@/api/product'
 import { glistUser } from '@/api/user/user'
 import treeTable from '@/components/TreeTable'
 export default {
@@ -126,6 +126,9 @@ export default {
         secondary: []
       }, {
         label: '药物代谢',
+        secondary: []
+      }, {
+        label: '遗传疾病',
         secondary: []
       }],
       optionProps: {
@@ -285,6 +288,8 @@ export default {
           this.optionPrimary[2].secondary = this.querySearchSec('药物代谢')
         } else if (val.indexOf('个性特质') > -1 && !this.optionPrimary[1].secondary.length) {
           this.optionPrimary[1].secondary = this.querySearchSec('个性特质')
+        } else if (val.indexOf('遗传疾病') > -1 && !this.optionPrimary[3].secondary.length) {
+          this.optionPrimary[3].secondary = this.querySearchSec('遗传疾病')
         }
       }, 300)
     },
@@ -301,8 +306,11 @@ export default {
         itemData = await gallPersonality(this.secondary_name)
       } else if (this.primary_name === '药物代谢') {
         itemData = await gallDrug(this.secondary_name)
+      } else if (this.primary_name === '遗传疾病') {
+        itemData = await gallGenetic(this.secondary_name)
       }
-      itemData.data.diseases.forEach((item, index) => {
+      console.log(itemData.data)
+      itemData.data.indicate.forEach((item, index) => {
         this.transfer.data.push({
           label: item.indicate_name,
           key: index

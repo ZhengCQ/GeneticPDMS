@@ -3,6 +3,7 @@
     <el-row>
     <form-generator
                    :config="config"
+                   :itemData = "itemDataList"
                    :value="indicateForm"/>
     </el-row>
   </el-form>
@@ -10,6 +11,7 @@
 <script type="text/javascript">
 import FormGenerator from '@/components/Form/FormGenerator'
 import transQueryList from '@/utils/utils'
+import { transQueryOptions } from '@/utils/utils'
 import { glistKnowlege } from '@/api/interpretation/common'
 export default {
   name: 'SubElForm',
@@ -19,7 +21,8 @@ export default {
     return {
       config: this.InterpMainApp.subConfig,
       indicateForm: this.InterpMainApp.subFormInfo,
-      rules: this.InterpMainApp.rules
+      rules: this.InterpMainApp.rules,
+      itemDataList: []
     }
   },
   created() {
@@ -41,16 +44,25 @@ export default {
       const list = transQueryList(queryString, itemData)
       callback(list)
     },
+    // 指标类
+    async querySearchClass(queryString, callback) {
+      const name = this.indicateForm.primary_code
+      var itemData = await this.InterpMainApp.getClass(name)
+      itemData = itemData.data.indicate
+      console.log(itemData)
+      const list = transQueryList(queryString, itemData)
+      callback(list)
+    },
     // 指标
     async querySearchIndi(queryString, callback) {
       const name = this.indicateForm.secondary_name
       var itemData = await this.InterpMainApp.getIndicate(name)
-      itemData = itemData.data.diseases
-      // 统一为name 用来转换为value
+      itemData = itemData.data.indicate
+      var itemDataLst = []
       for (const i of itemData) {
-        i.name = i.indicate_name
+        itemDataLst.push(i.indicate_name)
       }
-      const list = transQueryList(queryString, itemData)
+      const list = transQueryList(queryString, itemDataLst)
       callback(list)
     },
     // 知识库
@@ -71,6 +83,14 @@ export default {
       const list = transQueryList(queryString, itemData)
       callback(list)
     },
+    // 基因,多项选择
+    async querySearchGene(queryString) {
+      var itemData = await this.InterpMainApp.getGene('GD', queryString)
+      console.log(itemData)
+      itemData = itemData.data.gene_name
+      const list = transQueryOptions(queryString, itemData)
+      this.itemDataList = list
+    },
     querySearchType() { // 函数一时没有找到方法直接转递，采用字符传递方式，再用方法替代。
       console.log(this.rules)
       this.config.fieldsConfig.forEach((item, index) => {
@@ -78,10 +98,14 @@ export default {
           item.querySearch = this.querySearchPri
         } else if (item.querySearch === 'getSecondary') {
           item.querySearch = this.querySearchSec
+        } else if (item.querySearch === 'querySearchClass') {
+          item.querySearch = this.querySearchClass
         } else if (item.querySearch === 'querySearchIndi') {
           item.querySearch = this.querySearchIndi
         } else if (item.querySearch === 'getKnowledge') {
           item.querySearch = this.querySearchKlg
+        } else if (item.querySearch === 'gfindGene') {
+          item.querySearch = this.querySearchGene
         }
       })
     }

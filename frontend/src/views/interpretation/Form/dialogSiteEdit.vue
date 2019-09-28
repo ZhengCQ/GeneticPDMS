@@ -105,6 +105,7 @@ export default {
     },
     updateData() {
       var tempData = {}
+      console.log(this.$parent.dialogFormInfo)
       tempData.id = this.$parent.dialogFormInfo.id
       tempData.site_result = this.$refs.siteTable.tableData // 传回后台的的是results值，需要重新赋值。从inEditTable中获取表格数据
       tempData.flag = 'rs_site'

@@ -27,7 +27,7 @@ const interpretationRouter = {
     },
     {
       path: 'mendelian',
-      component: () => import('@/views/svg-icons/index'),
+      component: () => import('@/views/interpretation/mendelian/index'),
       name: 'MendelianIndi',
       meta: { title: 'mendelian', icon: 'danjiyinyichuanbing', noCache: false }
     }

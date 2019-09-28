@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function glistGene(query) {
   return request({
-    url: '/geneticDiseases/list_gene',
+    url: '/drug/list_gene_relation',
     method: 'get',
     params: query
   })
@@ -10,7 +10,7 @@ export function glistGene(query) {
 
 export function paddGene(results) {
   return request({
-    url: '/geneticDiseases/add_gene',
+    url: '/drug/add_gene',
     method: 'post',
     params: { results }
   })
@@ -24,11 +24,11 @@ export function peditGene(results) {
   })
 }
 
-export function gdeleteGene(gene_name) {
+export function gdeleteGene(id) {
   return request({
-    url: '/geneticDiseases/delete_gene',
+    url: '/drug/delete_gene',
     method: 'get',
-    params: gene_name
+    params: id
   })
 }
 

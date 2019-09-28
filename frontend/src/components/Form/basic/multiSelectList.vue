@@ -1,6 +1,13 @@
 <template>
   <el-form-item :label="label" :prop="prop">
-    <el-select v-model="currentValue" @input="onInputEvent" :placeholder="placeholder">
+    <el-select
+            v-model="currentValue"
+            @input="onInputEvent"
+            multiple
+            filterable
+            remote
+            :remote-method="querySearch"
+            :placeholder="placeholder">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -14,14 +21,19 @@
 <script>
 import formMixins from '@/mixins/form-model'
 export default {
-  name: 'SelectList',
-  props: ['placeholder', 'options', 'prop', 'label', 'value'],
+  name: 'MulSelectList',
+  props: ['placeholder', 'itemData', 'prop', 'label', 'value', 'querySearch'],
   data() {
     return {
-      currentValue: this.value
+      currentValue: this.value,
+      options: []
+    }
+  },
+  watch: {
+    itemData(val) {
+      this.options = val
     }
   },
   mixins: [formMixins]
 }
-
 </script>

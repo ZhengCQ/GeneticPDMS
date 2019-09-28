@@ -7,37 +7,38 @@
     </sub-el-form>
     <!--添加基本信息结束-->
 
-    <!--增加结论按钮-->
-    <el-button v-if="showClusionForm === false" type="success" size="large"  @click="showClusionForm=!showClusionForm">新增结论</el-button>
-    <el-button v-else type="primary" size="large" @click="showClusionForm=!showClusionForm">关闭结论</el-button>
-
-    <!--添加结论开始-->
-    <conclusion-form
-                ref="conclusionform"
-                :showForm="showClusionForm">
-      <slot>
-        <el-button type="primary" @click="handleCreateConclusion">确定新增</el-button>
-      </slot>
-    </conclusion-form>
-    <inEditTable ref="conclustionTable" :data="conclustionTableList" :columns="conclustionColumns">
-    </inEditTable>
+    <div v-if="conclustionColumns">
+      <!--增加结论按钮-->
+      <el-button v-if="showClusionForm === false" type="success" size="large"  @click="showClusionForm=!showClusionForm">新增结论</el-button>
+      <el-button v-else type="primary" size="large" @click="showClusionForm=!showClusionForm">关闭结论</el-button>
+      <!--添加结论开始-->
+      <conclusion-form
+                  ref="conclusionform"
+                  :showForm="showClusionForm">
+        <slot>
+          <el-button type="primary" @click="handleCreateConclusion">确定新增</el-button>
+        </slot>
+      </conclusion-form>
+      <inEditTable ref="conclustionTable" :data="conclustionTableList" :columns="conclustionColumns">
+      </inEditTable>
+    </div>
     <!--添加结论结束-->
     <!--增加按钮-->
-    <el-button v-if="showValueForm === false" type="success" size="large"  @click="showValueForm=!showValueForm">新增位点</el-button>
-    <el-button v-else type="primary" size="large" @click="showValueForm=!showValueForm">关闭位点</el-button>
+    <div v-if="siteEditColumns">
+      <el-button v-if="showValueForm === false" type="success" size="large" @click="showValueForm=!showValueForm">新增位点</el-button>
+      <el-button v-else type="primary" size="large" @click="showValueForm=!showValueForm">关闭位点</el-button>
+      <!--位点表单-->
+      <site-form ref="siteform" :showForm="showValueForm">
+        <slot>
+          <el-button type="primary" @click="handleCreateSnps">确定新增</el-button>
+        </slot>
+      </site-form>
+      <!--添加位点 结束-->
+      <!--可编辑表格 开始-->
+      <inEditTable ref="siteTable" :data="siteTableList" :columns="siteEditColumns">
+      </inEditTable>
+    </div>
 
-    <!--位点表单-->
-    <site-form
-                  ref="siteform"
-                  :showForm="showValueForm">
-      <slot>
-        <el-button type="primary" @click="handleCreateSnps">确定新增</el-button>
-      </slot>
-    </site-form>
-    <!--添加位点 结束-->
-    <!--可编辑表格 开始-->
-    <inEditTable ref="siteTable" :data="siteTableList" :columns="siteEditColumns">
-    </inEditTable>
     <!--可编辑表格 结束-->
     <div slot="footer" class="dialog-footer">
       <el-button @click="onCancel">{{ $t('table.cancel') }}</el-button>
@@ -99,6 +100,7 @@ export default {
     },
     conclustionEditForm(val) {
       val.forEach((item, index) => {
+        console.log(item)
         if (item.image_path) {
           if (!item.image_path.match(this.COMMON.webUrl)) {
             val[index].image_path = val[index].image_path = this.COMMON.webUrl + '/' + item.image_path
@@ -181,18 +183,25 @@ export default {
         if (item.id === item.tempid) {
           tableData[index].id = 0 // 表示是新加的，需要重新分配ID
         }
-        if (item.image_path.match(this.COMMON.webUrl)) {
-          tableData[index].image_path = item.image_path.replace(this.COMMON.webUrl + '/', '')
+        if (item.image_path) {
+          if (item.image_path.match(this.COMMON.webUrl)) {
+            tableData[index].image_path = item.image_path.replace(this.COMMON.webUrl + '/', '')
+          }
         }
       })
     },
     createData() {
       var tempData = Object.assign({}, this.InterpMainApp.subFormInfo) // subelform从获取数据, 中赋值到data
-      tempData.site_result = []
-      tempData.conclusion_result = []
-      tempData.site_result = this.$refs.siteTable.tableData// 从inEditTable中获取数据,最终数据来自表格
-      tempData.conclusion_result = this.$refs.conclustionTable.tableData
-      this.pre_conclustionTable(tempData.conclusion_result)
+      console.log(tempData)
+      if (this.siteEditColumns) {
+        tempData.site_result = []
+        tempData.site_result = this.$refs.siteTable.tableData // 从inEditTable中获取数据,最终数据来自表格
+      }
+      if (this.conclustionColumns) {
+        tempData.conclusion_result = []
+        tempData.conclusion_result = this.$refs.conclustionTable.tableData
+        this.pre_conclustionTable(tempData.conclusion_result)
+      }
       this.InterpMainApp.createDataForm(JSON.stringify(tempData)).then(() => {
         this.$emit('getlist')
         this.$emit('cancel') // 调用父组件的cancer方法
@@ -206,11 +215,15 @@ export default {
     },
     updateData() {
       var tempData = Object.assign({}, this.$refs.subelform.indicateForm) // subelform从获取数据，中赋值到data
-      tempData.site_result = this.$refs.siteTable.tableData // 传回后台的的是results值，需要重新赋值。从inEditTable中获取表格数据
-      tempData.conclusion_result = this.$refs.conclustionTable.tableData
-      console.log(tempData.conclusion_result)
-      tempData.flag = 'all'
-      this.pre_conclustionTable(tempData.conclusion_result)
+      tempData.flag = 'base'
+      if (this.siteEditColumns) {
+        tempData.site_result = this.$refs.siteTable.tableData // 传回后台的的是results值，需要重新赋值。从inEditTable中获取表格数据
+      }
+      if (this.conclustionColumns) {
+        tempData.conclusion_result = this.$refs.conclustionTable.tableData
+        this.pre_conclustionTable(tempData.conclusion_result)
+      }
+      console.log(tempData)
       this.InterpMainApp.updateDataForm(JSON.stringify(tempData)).then(() => {
         this.$emit('getlist')
         this.$emit('cancel') // 调用父组件的cancer方法
