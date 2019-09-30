@@ -286,10 +286,16 @@ export default {
             cols: 12
           },
           {
-            name: 'alt',
-            prop: 'alt',
-            label: '突变碱基',
-            placeholder: '请选择碱基',
+            name: 'alt_db',
+            prop: 'alt_db',
+            label: 'db突变碱基',
+            fieldType: 'TextInput',
+            cols: 12
+          },
+          {
+            name: 'effect_allele',
+            label: '风险碱基',
+            prop: 'effect_allele',
             fieldType: 'SelectList',
             options: [
               { label: 'A', value: 'A' },
@@ -298,18 +304,6 @@ export default {
               { label: 'G', value: 'G' },
               { label: 'I', value: 'I' },
               { label: 'D', value: 'D' }
-            ],
-            cols: 12
-          },
-          {
-            name: 'effect_allele',
-            label: '主效碱基',
-            prop: 'effect_allele',
-            placeholder: '请选择碱基',
-            fieldType: 'SelectList',
-            options: [
-              { label: '参考碱基', value: 'ref' },
-              { label: '突变碱基', value: 'alt' }
             ],
             cols: 12
           },

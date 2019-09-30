@@ -194,25 +194,14 @@ export default {
           },
           {
             name: 'alt_db',
-            label: '突变碱基',
-            fieldType: 'SelectList',
-            options: [
-              { label: 'A', value: 'A' },
-              { label: 'T', value: 'T' },
-              { label: 'C', value: 'C' },
-              { label: 'G', value: 'G' }
-            ],
+            label: '数据库突变碱基',
+            fieldType: 'TextInput',
             cols: 12
           },
           {
             name: 'genotype',
             label: '基因型',
-            fieldType: 'SelectList',
-            options: [
-              { label: 'ref_hom', value: 'ref_hom' },
-              { label: 'alt_hom', value: 'alt_hom' },
-              { label: 'alt_ref', value: 'alt_ref' }
-            ],
+            fieldType: 'TextInput',
             cols: 12
           },
           {
@@ -252,7 +241,7 @@ export default {
         key: 'ref'
       },
       {
-        label: '突变碱基',
+        label: 'db突变碱基',
         key: 'alt_db'
       },
       {

@@ -67,19 +67,21 @@ export default {
     },
     async queryRsDetail(rs_name) {
       var itemData = await gfindSiteDetail(rs_name)
-      var altArray = []
+      // var altArray = []
       console.log(typeof itemData.data.result)
       if (typeof itemData.data.result === 'object') {
         this.FormInfo.gene = itemData.data.result[0].gene
         this.FormInfo.ref = itemData.data.result[0].ref
+        this.FormInfo.alt_db = itemData.data.result[0].alt_db
         // alt 有多个，当alt不为空的时候，将alt存为数组，输出到alt的options共选择
+        /*
         itemData.data.result.forEach(item => {
           if (item.alt) {
             altArray.push(
               { label: item.alt, value: item.alt },
             )
           }
-        })
+        })*/
       } else {
         this.FormInfo.gene = ''
         this.FormInfo.ref = ''
