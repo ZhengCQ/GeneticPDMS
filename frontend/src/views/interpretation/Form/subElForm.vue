@@ -46,10 +46,10 @@ export default {
     },
     // 指标类
     async querySearchClass(queryString, callback) {
-      const name = this.indicateForm.primary_code
+      const name = this.indicateForm.primary_code_for_class
+      console.log(name)
       var itemData = await this.InterpMainApp.getClass(name)
-      itemData = itemData.data.indicate
-      console.log(itemData)
+      itemData = itemData.data.result
       const list = transQueryList(queryString, itemData)
       callback(list)
     },
@@ -92,7 +92,6 @@ export default {
       this.itemDataList = list
     },
     querySearchType() { // 函数一时没有找到方法直接转递，采用字符传递方式，再用方法替代。
-      console.log(this.rules)
       this.config.fieldsConfig.forEach((item, index) => {
         if (item.querySearch === 'getPrimary') {
           item.querySearch = this.querySearchPri

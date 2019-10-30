@@ -17,7 +17,7 @@ export function gfindGene(primary_code, gene_name) {
 
 export function gallClass(primary_code) {
   return request({
-    url: '/query/indicate_class_info',
+    url: '/query/find_indicate_class',
     method: 'get',
     params: { primary_code }
   })

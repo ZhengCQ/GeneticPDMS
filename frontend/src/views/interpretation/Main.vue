@@ -226,6 +226,7 @@ export default {
       this.listLoading = true
       this.fetchList(this.listQuery).then(response => {
         this.tableList = response.data.results
+        console.log(this.tableList)
 
         for (const i of this.tableList) {
           i.id = (Array(4).join('0') + i.id).slice(-4) // 得到特定长度
@@ -306,7 +307,7 @@ export default {
       for (var name in this.subFormInfo) {
         if (typeof this.subFormInfo[name] === 'object') {
           this.subFormInfo[name] = []
-        } else if (name !== 'primary_name') {
+        } else if (name !== 'primary_name' && name !== 'primary_code') {
           this.subFormInfo[name] = '' // 重置数据
         }
       }

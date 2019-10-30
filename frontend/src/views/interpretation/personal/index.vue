@@ -45,9 +45,9 @@ export default {
       // 主表单需要收集的form数据
       formData: {
         primary_name: '个性特质',
-        primary_code: 'PE',
         secondary_name: '',
         indicate_name: '',
+        primary_code_for_class: 'PE',
         indicate_class: '',
         knowledge_name: ''
       },
@@ -80,12 +80,23 @@ export default {
             trigerFocus: false
           },
           {
+            name: 'primary_code_for_class',
+            label: '类一级分类',
+            fieldType: 'SelectList',
+            options: [
+              { label: '个性特质', value: 'PE' },
+              { label: '药物代谢', value: 'DM' },
+              { label: '常见疾病', value: 'CD' }
+            ],
+            cols: 12
+          },
+          {
             name: 'indicate_class',
             label: '指标类',
             prop: 'indicate_class',
             fieldType: 'autoComplete',
             cols: 16,
-            querySearch: 'querySearchIndi',
+            querySearch: 'querySearchClass',
             trigerFocus: false
           },
           {
