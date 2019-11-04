@@ -60,7 +60,7 @@
     <!--列表数据表单 结束-->
 
     <!--页码 开始-->
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.page_size" @pagination="getList" />
     <!--页码 结束-->
 
     <!--新增编辑表单 开始-->
@@ -113,7 +113,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 20,
+        page_size: 20,
         product_users: undefined,
         product_name: undefined,
         sort: '+id',
