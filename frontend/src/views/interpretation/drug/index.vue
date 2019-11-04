@@ -185,6 +185,7 @@ export default {
               { label: '慢代谢型 PM', value: 'PM' },
               { label: '中间代谢型 IM', value: 'IM' },
               { label: '快代谢型 EM', value: 'EM' },
+              { label: '超快代谢型 UM', value: 'UM' },
               { label: 'E2/E2', value: 'E2/E2' },
               { label: 'E2/E3', value: 'E2/E3' },
               { label: 'E2/E4', value: 'E2/E4' },

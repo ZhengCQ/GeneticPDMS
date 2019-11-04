@@ -1,8 +1,15 @@
 <template>
   <div class="app-container">
     <!--数据列表上方 开始-->
+    <div class="filter-container">
+      <!--搜索-->
+      <el-input :placeholder="$t('table.indicate_class')" v-model="listQuery.indicate_class" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
+      <!--新增-->
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+    </div>
     <!--新增 开始-->
-    <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+    <!--el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button-->
     <!--新增 结束-->
     <!--数据列表上方 结束-->
     <!--数据列表表单 开始-->
@@ -90,7 +97,8 @@ export default {
       listQuery: {
         page: 1,
         page_size: 10,
-        sort: '+id'
+        sort: '+id',
+        indicate_class: undefined
       },
       deleted: {
         id: null
@@ -107,7 +115,7 @@ export default {
     getList() {
       this.listLoading = true
       this.fetchList(this.listQuery).then(response => {
-        console.log(response.data)
+        console.log(this.listQuery)
         this.tableList = response.data.results
         for (const i of this.tableList) {
           i.id = (Array(4).join('0') + i.id).slice(-4) // 得到特定长度

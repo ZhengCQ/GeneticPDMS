@@ -1,8 +1,15 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <!--搜索-->
+      <el-input :placeholder="$t('table.indicate_name')" v-model="listQuery.indicate_name" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
+      <!--新增-->
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+    </div>
     <!--数据列表上方 开始-->
     <!--新增 开始-->
-    <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+    <!--el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button-->
     <!--新增 结束-->
     <!--数据列表上方 结束-->
     <!--数据列表表单 开始-->
@@ -204,8 +211,10 @@ export default {
       listQuery: {
         page: 1,
         page_size: 10,
-        sort: '+id'
+        sort: '+id',
+        indicate_name: undefined
       },
+      modelOptions: [1, 2, 3, 4],
       deleted: {
         id: null
       },

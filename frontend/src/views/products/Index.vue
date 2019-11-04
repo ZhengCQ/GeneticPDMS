@@ -60,7 +60,8 @@
     <!--列表数据表单 结束-->
 
     <!--页码 开始-->
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.page_size" @pagination="getList" />
+
     <!--页码 结束-->
 
     <!--新增编辑表单 开始-->
@@ -113,7 +114,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 20,
+        page_size: 10,
         product_users: undefined,
         product_name: undefined,
         sort: '+id',
@@ -167,11 +168,13 @@ export default {
       this.listLoading = true
       glistProduct(this.listQuery).then(response => {
         this.productsList = response.data.results
+        console.log(this.productsList)
         for (const i of this.productsList) {
           i.id = (Array(4).join('0') + i.id).slice(-4) // 得到特定长度
         }
         this.total = response.data.total
         // Just to simulate the time of the request
+        console.log(this.listQuery)
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 1000)
