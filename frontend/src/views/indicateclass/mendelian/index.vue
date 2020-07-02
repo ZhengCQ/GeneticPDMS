@@ -35,11 +35,6 @@ export default {
           prop: 'id'
         },
         {
-          name: 'secondary_name',
-          label: '二级分类',
-          prop: 'secondary_name'
-        },
-        {
           name: 'indicate_class',
           label: '指标类',
           prop: 'indicate_class'

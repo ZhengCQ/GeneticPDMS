@@ -110,7 +110,7 @@ export default {
       },
       state1: '',
       dialogVisible: this.dialogFormVisible,
-      classTypeOptions: ['FGDP', 'OCLT'],
+      classTypeOptions: ['健康风险', '药物代谢', '遗传诊断', '风险早筛'],
       // 表单输入规则
       rules: {
         name: [{ required: true, message: '产品名称必填且名称需唯一', trigger: 'focus' }],
@@ -420,5 +420,5 @@ export default {
 .customWidth {
   width: 80%;
 }
-
+.el-form-item {margin-bottom: 3px;}
 </style>

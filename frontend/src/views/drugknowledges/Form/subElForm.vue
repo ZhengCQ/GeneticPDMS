@@ -41,6 +41,7 @@ export default {
       var itemData = await this.InterpMainApp.gfindPheno(queryString)
       itemData = itemData.data.phenotypeMIMnum
       const list = transQueryOptions(queryString, itemData)
+      console.log(list)
       this.itemDataList = list
     },
     querySearchType() { // 函数一时没有找到方法直接转递，采用字符传递方式，再用方法替代。

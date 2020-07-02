@@ -348,7 +348,10 @@ export default {
               { label: '常规使用', value: '常规使用' },
               { label: '降低疗效', value: '降低疗效' },
               { label: '提高疗效', value: '提高疗效' },
-              { label: '谨慎使用', value: '谨慎使用' }
+              { label: '谨慎使用', value: '谨慎使用' },
+              { label: '换药', value: '换药' },
+              { label: '增加剂量', value: '增加剂量' },
+              { label: '降低剂量', value: '降低剂量' }
             ],
             cols: 12
           },

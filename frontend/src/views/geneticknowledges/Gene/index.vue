@@ -110,7 +110,7 @@ export default {
             prop: '表型OMIM号',
             fieldType: 'multiSelectList',
             cols: 16,
-            querySearch: 'gfindPheno'
+            querySearch: 'relate_phenotypeMIMnum'
           },
           {
             name: 'chinese_auditor',
